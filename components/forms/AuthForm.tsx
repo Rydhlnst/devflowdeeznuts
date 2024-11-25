@@ -14,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
@@ -23,7 +22,7 @@ const formSchema = z.object({
   }),
 });
 
-export function ProfileForm() {
+const AuthForm = () => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,4 +60,6 @@ export function ProfileForm() {
       </form>
     </Form>
   );
-}
+};
+
+export default AuthForm;
