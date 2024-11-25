@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
-import { Button } from "../ui/button";
 import Image from "next/image";
-import { toast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
+import React from "react";
+
 import ROUTES from "@/constants/routes";
+import { toast } from "@/hooks/use-toast";
+
+import { Button } from "../ui/button";
 
 const SocialAuth = () => {
   const buttonClass =
@@ -18,15 +20,16 @@ const SocialAuth = () => {
         redirect: false,
       });
     } catch (error) {
-      console.log(error),
-        toast({
-          title: "Sign - In Failed",
-          description:
-            error instanceof Error
-              ? error.message
-              : "An error occured during sign - in",
-          variant: "destructive",
-        });
+      console.log(error);
+
+      toast({
+        title: "Sign-in Failed",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An error occured during sign-in",
+        variant: "destructive",
+      });
     }
   };
   return (
