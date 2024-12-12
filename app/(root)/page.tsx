@@ -5,6 +5,48 @@ import { signOut } from "@/auth";
 import React from "react";
 import Link from "next/link";
 import LocalSearch from "@/components/search/LocalSearch";
+import QuestionCards from "@/components/cards/QuestionCards";
+
+const questions = [
+  {
+    _id: "1",
+    title: "How to learn React?",
+    description: "I want to learn React, can anyone help me?",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "JavaScript" },
+    ],
+    author: {
+      _id: "1",
+      name: "John Doe",
+      image:
+        "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+    },
+    upvotes: 10,
+    answers: 5,
+    views: 100,
+    createdAt: new Date(),
+  },
+  {
+    _id: "2",
+    title: "How to learn JavaScript?",
+    description: "I want to learn JavaScript, can anyone help me?",
+    tags: [
+      { _id: "1", name: "JavaScript" },
+      { _id: "2", name: "JavaScript" },
+    ],
+    author: {
+      _id: "1",
+      name: "John Doe",
+      image:
+        "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+    },
+    upvotes: 10,
+    answers: 5,
+    views: 100,
+    createdAt: new Date("2021-09-01"),
+  },
+];
 
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
@@ -13,10 +55,13 @@ interface SearchParams {
 const Home = async ({ searchParams }: SearchParams) => {
   const { query = "" } = await searchParams;
 
-  const session = await auth();
-  const questions = [{ _id: "1" }];
+  const filteredQuestions = questions.filter((question) => {
+    const matchesQuery = question.title
+      .toLowerCase()
+      .includes(query.toLowerCase());
 
-  console.log(session);
+    return matchesQuery;
+  });
   return (
     <>
       <section className="w-full flex flex-col-reverse sm:flex-row justify-between gap-4 sm:items-center">
@@ -38,10 +83,9 @@ const Home = async ({ searchParams }: SearchParams) => {
       </section>
       HomeFilter
       <div className="mt-10 flex w-full flex-col gap-6 ">
-        <p>Question card 1</p>
-        <p>Question card 1</p>
-        <p>Question card 1</p>
-        <p>Question card 1</p>
+        {filteredQuestions.map((question) => (
+          <QuestionCards key={question._id} question={question} />
+        ))}
       </div>
     </>
   );
